@@ -1,0 +1,30 @@
+.categoryStatus {
+  background: #1a1a3e;
+  color: white;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  width: 400px;
+}
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.playerLabel {
+  width: 90px;
+}
+
+.categoryIcon {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  font-size: 18px;
+  color: white;
+}

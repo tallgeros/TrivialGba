@@ -288,7 +288,7 @@ export default function QuestionModal({
     setTimeout(() => {
       onAnswer && onAnswer(false, isCheeseCell);
       onClose && onClose();
-    }, 7000);
+    }, 3000);
   }
 
   function handleAnswerSelect(index) {
@@ -311,6 +311,56 @@ export default function QuestionModal({
 
   const handleParticlesComplete = () => {
     setShowParticles(false);
+  };
+
+  // RENDERIZAR OPCIONES CON FOR LOOP (FIX PARA OPERA/EDGE)
+  const renderOptions = () => {
+    if (!currentQuestion || !currentQuestion.options) return null;
+    
+    const buttons = [];
+    for (let i = 0; i < currentQuestion.options.length; i++) {
+      const option = currentQuestion.options[i];
+      
+      let buttonClass = 'option-button';
+      
+      if (showResult) {
+        if (i === selectedAnswer && isCorrect) {
+          buttonClass += ' option-correct-selected';
+        } else if (i === selectedAnswer && !isCorrect) {
+          buttonClass += ' option-wrong-selected';
+        } else if (i === currentQuestion.correctAnswer) {
+          buttonClass += ' option-correct-answer';
+        }
+      }
+
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handleAnswerSelect(i)}
+          disabled={showResult}
+          className={buttonClass}
+          style={{
+            borderColor: !showResult ? '#00d4ff' : undefined
+          }}
+          onMouseEnter={(e) => {
+            if (!showResult) {
+              e.target.style.borderColor = categoryInfo.color;
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!showResult) {
+              e.target.style.borderColor = '#00d4ff';
+            }
+          }}
+        >
+          <strong style={{ color: categoryInfo.color }}>
+            {String.fromCharCode(65+i)}.
+          </strong> {option}
+        </button>
+      );
+    }
+    
+    return buttons;
   };
 
   if (!visible || !currentQuestion) return null;
@@ -411,47 +461,9 @@ export default function QuestionModal({
             {currentQuestion.question}
           </div>
 
-          {/* Opciones */}
+          {/* Opciones - AHORA CON FOR LOOP */}
           <div className="options-container">
-            {currentQuestion.options.map((opt, i) => {
-              let buttonClass = 'option-button';
-              
-              if (showResult) {
-                if (i === selectedAnswer && isCorrect) {
-                  buttonClass += ' option-correct-selected';
-                } else if (i === selectedAnswer && !isCorrect) {
-                  buttonClass += ' option-wrong-selected';
-                } else if (i === currentQuestion.correctAnswer) {
-                  buttonClass += ' option-correct-answer';
-                }
-              }
-
-              return (
-                <button
-                  key={i}
-                  onClick={() => handleAnswerSelect(i)}
-                  disabled={showResult}
-                  className={buttonClass}
-                  style={{
-                    borderColor: !showResult ? '#00d4ff' : undefined
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!showResult) {
-                      e.target.style.borderColor = categoryInfo.color;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!showResult) {
-                      e.target.style.borderColor = '#00d4ff';
-                    }
-                  }}
-                >
-                  <strong style={{ color: categoryInfo.color }}>
-                    {String.fromCharCode(65+i)}.
-                  </strong> {opt}
-                </button>
-              );
-            })}
+            {renderOptions()}
           </div>
         </div>
       </div>

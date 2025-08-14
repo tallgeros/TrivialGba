@@ -1,4 +1,4 @@
-/* ParticleEffects.css - Estilos optimizados para mejor rendimiento */
+/* ParticleEffects.css - Estilos optimizados para cohetes rápidos */
 .particle-effects-overlay {
   position: absolute;
   top: 0;
@@ -9,7 +9,7 @@
   border-radius: 16px;
   overflow: hidden;
   z-index: 1000;
-  background: radial-gradient(circle at center, rgba(0, 0, 20, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+  background: radial-gradient(circle at center, rgba(0, 0, 20, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%);
 }
 
 .particle-canvas {
@@ -19,11 +19,13 @@
   width: 100%;
   height: 100%;
   border-radius: 16px;
-  /* Optimizaciones de hardware */
+  /* Optimizaciones de hardware para animaciones rápidas */
   transform: translateZ(0);
-  will-change: transform;
-  /* Filtros para mejorar el contraste */
-  filter: contrast(1.2) saturate(1.3);
+  will-change: transform, opacity;
+  /* Filtros mejorados para cohetes rápidos */
+  filter: contrast(1.3) saturate(1.4) brightness(1.1);
+  /* Suavizado para movimiento rápido */
+  image-rendering: optimizeSpeed;
 }
 
 .bomb-container {
@@ -40,34 +42,34 @@
 
 .bomb-growing {
   font-size: 4rem;
-  animation: bombGrow 1s ease-in-out;
+  animation: bombGrowFast 0.8s ease-in-out; /* Animación más rápida */
   filter: drop-shadow(0 0 20px #ff4444);
   transform: translateZ(0);
 }
 
 .explosion-flash {
   font-size: 8rem;
-  animation: explosionFlash 0.5s ease-out;
+  animation: explosionFlashFast 0.4s ease-out; /* Animación más rápida */
   filter: drop-shadow(0 0 30px #ff0000);
   transform: translateZ(0);
 }
 
-/* Animaciones mejoradas */
-@keyframes bombGrow {
+/* Animaciones aceleradas para cohetes rápidos */
+@keyframes bombGrowFast {
   0% {
-    transform: scale(0.5) translateZ(0);
+    transform: scale(0.4) translateZ(0);
     opacity: 0;
   }
-  30% {
-    transform: scale(0.8) translateZ(0);
-    opacity: 0.7;
+  25% {
+    transform: scale(0.7) translateZ(0);
+    opacity: 0.6;
   }
-  60% {
-    transform: scale(1.2) translateZ(0);
+  50% {
+    transform: scale(1.1) translateZ(0);
     opacity: 1;
   }
-  80% {
-    transform: scale(1.1) translateZ(0);
+  75% {
+    transform: scale(1.05) translateZ(0);
     opacity: 1;
   }
   100% {
@@ -76,55 +78,103 @@
   }
 }
 
-@keyframes explosionFlash {
+@keyframes explosionFlashFast {
   0% {
-    transform: scale(0.5) translateZ(0);
+    transform: scale(0.3) translateZ(0);
     opacity: 1;
-    filter: drop-shadow(0 0 50px #ff0000) brightness(2) saturate(2);
+    filter: drop-shadow(0 0 40px #ff0000) brightness(3) saturate(3);
   }
-  20% {
-    transform: scale(1.2) translateZ(0);
+  15% {
+    transform: scale(1.0) translateZ(0);
     opacity: 1;
-    filter: drop-shadow(0 0 80px #ff4444) brightness(3) saturate(2.5);
+    filter: drop-shadow(0 0 60px #ff4444) brightness(4) saturate(3);
   }
-  50% {
-    transform: scale(1.5) translateZ(0);
+  40% {
+    transform: scale(1.4) translateZ(0);
     opacity: 1;
-    filter: drop-shadow(0 0 100px #ff4444) brightness(3) saturate(2);
+    filter: drop-shadow(0 0 80px #ff4444) brightness(3.5) saturate(2.5);
   }
-  80% {
-    transform: scale(1.8) translateZ(0);
-    opacity: 0.5;
-    filter: drop-shadow(0 0 120px #ff8888) brightness(2) saturate(1.5);
+  70% {
+    transform: scale(1.7) translateZ(0);
+    opacity: 0.6;
+    filter: drop-shadow(0 0 100px #ff8888) brightness(2) saturate(2);
   }
   100% {
     transform: scale(2) translateZ(0);
     opacity: 0;
-    filter: drop-shadow(0 0 150px #ff8888) brightness(1) saturate(1);
+    filter: drop-shadow(0 0 120px #ff8888) brightness(1) saturate(1);
   }
 }
 
-/* Efectos adicionales para pantallas grandes */
+/* Animaciones adicionales para trails rápidos */
+@keyframes fastRocketTrail {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.3);
+  }
+}
+
+/* Efectos optimizados para pantallas grandes */
 @media (min-width: 768px) {
   .particle-effects-overlay {
-    /* Mejor calidad en pantallas grandes */
-    filter: contrast(1.3) saturate(1.4) brightness(1.1);
+    /* Mejor rendimiento en pantallas grandes */
+    filter: contrast(1.4) saturate(1.5) brightness(1.2);
+  }
+  
+  .particle-canvas {
+    /* Mejor calidad para cohetes rápidos */
+    filter: contrast(1.4) saturate(1.5) brightness(1.2);
+    /* GPU acceleration para animaciones fluidas */
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
   
   .bomb-growing {
     font-size: 5rem;
-    filter: drop-shadow(0 0 25px #ff4444) drop-shadow(0 0 50px rgba(255, 68, 68, 0.5));
+    filter: drop-shadow(0 0 25px #ff4444) drop-shadow(0 0 50px rgba(255, 68, 68, 0.6));
+    animation: bombGrowFast 0.7s ease-in-out;
   }
   
   .explosion-flash {
     font-size: 10rem;
-    filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 80px rgba(255, 0, 0, 0.3));
+    filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 80px rgba(255, 0, 0, 0.4));
+    animation: explosionFlashFast 0.35s ease-out;
   }
 }
 
-/* Optimizaciones para dispositivos con GPU limitada */
+/* Optimizaciones para dispositivos móviles con cohetes rápidos */
 @media (max-width: 480px) {
   .particle-canvas {
-    filter: contrast(1.1) saturate(1.2);
+    filter: contrast(1.2) saturate(1.3);
+    /* Optimización para dispositivos con GPU limitada */
+    image-rendering: optimizeSpeed;
+    transform: translate3d(0, 0, 0);
   }
+  
+  .bomb-growing {
+    font-size: 3.5rem;
+    animation: bombGrowFast 0.9s ease-in-out;
+  }
+  
+  .explosion-flash {
+    font-size: 7rem;
+    animation: explosionFlashFast 0.45s ease-out;
+  }
+}
+
+/* Clases adicionales para efectos de trails rápidos */
+.fast-trail {
+  animation: fastRocketTrail 0.3s ease-out forwards;
+}
+
+/* Optimización para 60fps en cohetes rápidos */
+* {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-backface-visibility: hidden;
+  -moz-transform: translate3d(0, 0, 0);
 }

@@ -1,4 +1,4 @@
-// ParticleEffects.jsx - Efectos mejorados con múltiples tipos de fuegos artificiales
+// ParticleEffects.jsx - Efectos con explosiones directas en posiciones aleatorias
 import React, { useEffect, useRef, useState } from 'react';
 import './ParticleEffects.css';
 
@@ -14,7 +14,7 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
     if (type === 'bomb' || type === 'fail' || type === 'explosion') {
       handleBombSequence();
     } else {
-      handleFireworksSequence();
+      handleDirectFireworksSequence();
     }
 
     return () => {
@@ -42,21 +42,19 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
     }, 1000);
   };
 
-  const handleFireworksSequence = () => {
-    startSpectacularFireworks();
+  const handleDirectFireworksSequence = () => {
+    startDirectExplosionFireworks();
     setTimeout(() => {
       if (onComplete) onComplete();
-    }, 10000); // Más tiempo para disfrutar del espectáculo
+    }, 6000); // Reducido de 8000 a 6000 por cohetes más rápidos
   };
 
-  const startSpectacularFireworks = () => {
+  const startDirectExplosionFireworks = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     const particles = [];
-    const rockets = [];
-    const starbursts = [];
 
     // Configurar canvas
     const resizeCanvas = () => {
@@ -80,104 +78,28 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
     // Tipos de explosiones
     const explosionTypes = ['chrysanthemum', 'peony', 'willow', 'ring', 'crossette', 'palm'];
 
-    // Cohete mejorado
-    class SpectacularRocket {
-      constructor(x, targetY, explosionType = 'chrysanthemum') {
+    // Clase para explosiones directas
+    class DirectExplosion {
+      constructor(x, y, explosionType = 'chrysanthemum') {
         this.x = x;
-        this.y = canvas.height;
-        this.targetY = targetY;
-        this.speed = Math.random() * 4 + 6;
+        this.y = y;
         this.palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-        this.color = this.palette[0];
-        this.trail = [];
-        this.exploded = false;
         this.explosionType = explosionType;
-        this.sparkles = [];
-      }
-
-      update() {
-        if (!this.exploded) {
-          // Crear chispas en el trail
-          if (Math.random() < 0.3) {
-            this.sparkles.push({
-              x: this.x + (Math.random() - 0.5) * 6,
-              y: this.y + Math.random() * 10,
-              vx: (Math.random() - 0.5) * 2,
-              vy: Math.random() * 3 + 1,
-              life: 1,
-              color: this.color
-            });
-          }
-
-          this.trail.push({ x: this.x, y: this.y });
-          if (this.trail.length > 15) this.trail.shift();
-          
-          this.y -= this.speed;
-          this.speed *= 0.98; // Desaceleración realista
-          
-          if (this.y <= this.targetY) {
-            this.explode();
-          }
-        }
-
-        // Actualizar chispas del trail
-        for (let i = this.sparkles.length - 1; i >= 0; i--) {
-          const spark = this.sparkles[i];
-          spark.x += spark.vx;
-          spark.y += spark.vy;
-          spark.life -= 0.05;
-          if (spark.life <= 0) {
-            this.sparkles.splice(i, 1);
-          }
-        }
-      }
-
-      draw() {
-        if (!this.exploded) {
-          // Dibujar estela con gradiente
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          
-          for (let i = 0; i < this.trail.length - 1; i++) {
-            const alpha = i / this.trail.length;
-            const width = alpha * 4 + 1;
-            
-            ctx.globalAlpha = alpha * 0.8;
-            ctx.strokeStyle = this.color;
-            ctx.lineWidth = width;
-            ctx.beginPath();
-            ctx.moveTo(this.trail[i].x, this.trail[i].y);
-            ctx.lineTo(this.trail[i + 1].x, this.trail[i + 1].y);
-            ctx.stroke();
-          }
-          
-          ctx.globalAlpha = 1;
-
-          // Dibujar cohete principal
-          const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 6);
-          gradient.addColorStop(0, this.color);
-          gradient.addColorStop(1, 'transparent');
-          
-          ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Dibujar chispas del trail
-          this.sparkles.forEach(spark => {
-            ctx.globalAlpha = spark.life;
-            ctx.fillStyle = spark.color;
-            ctx.beginPath();
-            ctx.arc(spark.x, spark.y, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-          });
-          
-          ctx.globalAlpha = 1;
-        }
+        this.delay = Math.random() * 2000; // Retraso aleatorio hasta 2 segundos
+        this.hasExploded = false;
+        
+        // Programar la explosión
+        setTimeout(() => {
+          this.explode();
+        }, this.delay);
       }
 
       explode() {
-        this.exploded = true;
+        if (this.hasExploded) return;
+        this.hasExploded = true;
+        
+        // Crear efecto de flash inicial
+        this.createFlashEffect();
         
         switch(this.explosionType) {
           case 'chrysanthemum':
@@ -200,6 +122,22 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
             break;
           default:
             this.createChrysanthemum();
+        }
+      }
+
+      createFlashEffect() {
+        // Crear partículas de flash inicial
+        for (let i = 0; i < 20; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 3 + 1;
+          particles.push(new FireworkParticle(
+            this.x, this.y,
+            Math.cos(angle) * speed,
+            Math.sin(angle) * speed,
+            '#ffffff',
+            'flash',
+            0.3 // Vida corta para el flash
+          ));
         }
       }
 
@@ -318,18 +256,18 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
 
     // Partícula mejorada
     class FireworkParticle {
-      constructor(x, y, vx, vy, color, type = 'normal') {
+      constructor(x, y, vx, vy, color, type = 'normal', customLife = null) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.color = color;
         this.type = type;
-        this.life = 1;
-        this.maxLife = 1;
-        this.decay = Math.random() * 0.015 + 0.008;
-        this.size = Math.random() * 3 + 2;
-        this.gravity = type === 'willow' ? 0.15 : 0.1;
+        this.life = customLife || 1;
+        this.maxLife = customLife || 1;
+        this.decay = type === 'flash' ? 0.05 : Math.random() * 0.015 + 0.008;
+        this.size = type === 'flash' ? Math.random() * 2 + 1 : Math.random() * 3 + 2;
+        this.gravity = type === 'willow' ? 0.15 : type === 'flash' ? 0.02 : 0.1;
         this.sparkles = [];
         this.twinkle = Math.random() * Math.PI * 2;
       }
@@ -345,8 +283,8 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
         this.vx *= 0.995;
         this.vy *= 0.995;
         
-        // Crear chispas ocasionales
-        if (Math.random() < 0.1 && this.life > 0.3) {
+        // Crear chispas ocasionales (excepto para flash)
+        if (this.type !== 'flash' && Math.random() < 0.1 && this.life > 0.3) {
           this.sparkles.push({
             x: this.x + (Math.random() - 0.5) * 4,
             y: this.y + (Math.random() - 0.5) * 4,
@@ -366,7 +304,7 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
 
       draw() {
         // Efecto de centelleo
-        const twinkleAlpha = (Math.sin(this.twinkle) + 1) * 0.3 + 0.4;
+        const twinkleAlpha = this.type === 'flash' ? 1 : (Math.sin(this.twinkle) + 1) * 0.3 + 0.4;
         
         ctx.globalAlpha = this.life * twinkleAlpha;
         
@@ -401,49 +339,23 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
       }
     }
 
-    // Secuencia de lanzamiento espectacular
-    const launchSpectacularSequence = () => {
-      let launchCount = 0;
-      const maxLaunches = 50;
+    // Crear explosiones directas en posiciones aleatorias
+    const explosions = [];
+    const explosionCount = 25; // Número de explosiones
+    
+    for (let i = 0; i < explosionCount; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height * 0.8 + canvas.height * 0.1; // Evitar bordes superior e inferior
+      const explosionType = explosionTypes[Math.floor(Math.random() * explosionTypes.length)];
       
-      const launch = () => {
-        if (launchCount >= maxLaunches) return;
-        
-        // Lanzar múltiples cohetes simultáneamente
-        const simultaneous = Math.random() < 0.3 ? 3 : 1;
-        
-        for (let i = 0; i < simultaneous; i++) {
-          const explosionType = explosionTypes[Math.floor(Math.random() * explosionTypes.length)];
-          rockets.push(new SpectacularRocket(
-            Math.random() * canvas.width,
-            Math.random() * canvas.height * 0.4 + 50,
-            explosionType
-          ));
-        }
-        
-        launchCount += simultaneous;
-        
-        // Intervalo variable para más dinamismo
-        const nextLaunch = Math.random() * 800 + 200;
-        setTimeout(launch, nextLaunch);
-      };
-      
-      launch();
-    };
-
-    launchSpectacularSequence();
+      explosions.push(new DirectExplosion(x, y, explosionType));
+    }
 
     // Bucle de animación optimizado
     const animate = () => {
-      // Efecto de desvanecimiento suave en lugar de limpiar completamente
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Efecto de desvanecimiento suave
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Actualizar cohetes
-      rockets.forEach(rocket => {
-        rocket.update();
-        rocket.draw();
-      });
 
       // Actualizar partículas
       for (let i = particles.length - 1; i >= 0; i--) {

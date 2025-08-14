@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DiceComponent.css';
+import './diceComponent.css';
 
 const DiceComponent = ({ onRollComplete, autoRoll = false, size = 150 }) => {
   const [currentNumber, setCurrentNumber] = useState(1);

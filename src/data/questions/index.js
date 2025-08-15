@@ -15,5 +15,5 @@ export const questionsDatabase = {
   lotr: questionsLotr,
   batman: questionsBatman,
   marvel: questionsMarvel,
-  starWars: questionsStarWars
+ 'STARWARS': questionsStarWars
 };

@@ -341,7 +341,7 @@ const ParticleEffects = ({ type, isVisible, onComplete }) => {
 
     // Crear explosiones directas en posiciones aleatorias
     const explosions = [];
-    const explosionCount = 25; // Número de explosiones
+    const explosionCount = 30; // Número de explosiones
     
     for (let i = 0; i < explosionCount; i++) {
       const x = Math.random() * canvas.width;

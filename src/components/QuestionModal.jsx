@@ -288,7 +288,7 @@ export default function QuestionModal({
     setTimeout(() => {
       onAnswer && onAnswer(false, isCheeseCell);
       onClose && onClose();
-    }, 3000);
+    }, 2000);
   }
 
   function handleAnswerSelect(index) {

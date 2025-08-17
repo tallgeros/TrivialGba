@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .board-title {
@@ -122,3 +123,26 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+/* ===================== */
+/*   Estilos SOLO MÓVIL  */
+/* ===================== */
+@media (max-width: 600px) {
+  .board-game {
+    width: 90vw;   /* más ancho */
+    height: 120vw;  /* un poco menos alto */
+  }
+
+  .board-center {
+    width: 18vw;
+    height: 18vw;
+    left: calc((90vw - 18vw) / 2);
+    top: calc((120vw - 18vw) / 2);
+  }
+
+  .board-cell {
+    width: 8vw;
+    height: 8vw;
+  }
+}
+

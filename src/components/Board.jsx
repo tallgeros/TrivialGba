@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { boardCells } from "../data/boardCells";
 import { categories } from "../data/categories";
 import {
@@ -15,7 +15,6 @@ import QuestionModal from "./QuestionModal";
 import "./board.css";
 
 const NUM_CATEGORIES = Object.keys(categories).length;
-const CENTER_INDEX = Math.floor(boardCells.length / 2); // Ajusta según tu boardCells
 
 function Board({ selectedTheme, onBackToCategories }) {
   const [showQuestionModal, setShowQuestionModal] = useState(false);
@@ -34,20 +33,31 @@ function Board({ selectedTheme, onBackToCategories }) {
   const [centerCategoryQueue, setCenterCategoryQueue] = useState([]);
   const [showFinalChallenge, setShowFinalChallenge] = useState(false);
 
-  // Definir las variables CSS
-  React.useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--board-size",
-      `${BOARD_SIZE}px`
-    );
-    document.documentElement.style.setProperty(
-      "--center-size",
-      `${CENTER_SIZE}px`
-    );
+  // Ajustar variables CSS dinámicamente según tamaño (desktop vs móvil)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 600) {
+        // En móvil → tablero ovalado
+        document.documentElement.style.setProperty("--board-size", "95vw");
+        document.documentElement.style.setProperty("--center-size", "18vw");
+      } else {
+        // En desktop → tablero circular normal
+        document.documentElement.style.setProperty(
+          "--board-size",
+          `${BOARD_SIZE}px`
+        );
+        document.documentElement.style.setProperty(
+          "--center-size",
+          `${CENTER_SIZE}px`
+        );
+      }
+    };
+    handleResize(); // inicial
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // ===================== MOVIMIENTO ===================
-
   function movePlayer(steps) {
     setIsMoving(true);
     let pos = playerPositions[currentPlayer];
@@ -59,11 +69,9 @@ function Board({ selectedTheme, onBackToCategories }) {
       if (count < steps) setTimeout(moveStep, 180);
       else {
         setIsMoving(false);
-        // ¿Está entrando en centro y tiene todos los quesitos?
         const hasAllQuesitos =
           playerCategories[currentPlayer].length === NUM_CATEGORIES;
         if (hasAllQuesitos && boardCells[pos].type === "center") {
-          // Entra en modo challenge final
           iniciarRondaCentro();
         } else {
           checkCell(pos);
@@ -91,7 +99,6 @@ function Board({ selectedTheme, onBackToCategories }) {
       return;
     }
 
-    // Si está en centro pero no todos los quesitos, solo notifica y cambia turno
     const pos = playerPositions[currentPlayer];
     if (
       boardCells[pos].type === "center" &&
@@ -115,7 +122,6 @@ function Board({ selectedTheme, onBackToCategories }) {
           };
         });
       }
-      // Si ganó todos los quesitos tras esta tirada, notificar y forzar moverse sólo a centro
       setTimeout(() => {
         if (
           playerCategories[currentPlayer].length + (isCheese ? 1 : 0) ===
@@ -126,10 +132,7 @@ function Board({ selectedTheme, onBackToCategories }) {
           );
         }
       }, 100);
-
-      // Turno sigue (el jugador puede volver a lanzar dado)
     } else {
-      // Falla, pasa turno
       nextTurn();
     }
   }
@@ -141,9 +144,7 @@ function Board({ selectedTheme, onBackToCategories }) {
   // ===================== DADO ===================
   function handleRollComplete(number) {
     setShowDice(false);
-    // Si el jugador ya tiene todos los quesitos, sólo puede moverse al centro
     if (playerCategories[currentPlayer].length === NUM_CATEGORIES) {
-      // Busca la posición del centro (primera casilla center, o por tu lógica)
       movePlayerAlCentro(number);
     } else {
       movePlayer(number);
@@ -151,13 +152,11 @@ function Board({ selectedTheme, onBackToCategories }) {
   }
 
   function movePlayerAlCentro(steps) {
-    // Busca el índice del centro
     const centerIdx = boardCells.findIndex((cell) => cell.type === "center");
     if (centerIdx === -1) {
       alert('El tablero no tiene centro definido "type:center"');
       return;
     }
-    // Calcula movimientos mínimos hasta el centro (puede ajustar lógica según reglas)
     let pos = playerPositions[currentPlayer];
     let count = 0;
     function step() {
@@ -178,10 +177,8 @@ function Board({ selectedTheme, onBackToCategories }) {
     step();
   }
 
-  // =========== RONDA FINAL (CENTRO, 6 preguntas aleatorias de categorías) ============
-
+  // =========== RONDA FINAL (CENTRO, 6 preguntas aleatorias) ============
   function iniciarRondaCentro() {
-    // Prepara las categorías aleatorias para preguntas (sin repeticiones)
     const catOrder = shuffle(Object.keys(categories));
     setCenterCategoryQueue(catOrder);
     setCenterQuestions((prev) => ({ ...prev, [currentPlayer]: [] }));
@@ -193,20 +190,16 @@ function Board({ selectedTheme, onBackToCategories }) {
   }
 
   function handleCenterAnswer(isCorrect) {
-    // Acumula si acertó o no
     setCenterQuestions((prev) => {
       const playerList = [...(prev[currentPlayer] || []), isCorrect];
-      // Siguiente categoría
       const idx = playerList.length;
       if (idx < centerCategoryQueue.length) {
-        // Siguiente pregunta
         setTimeout(() => {
           setShowQuestion(true);
           setQuestionCategory(centerCategoryQueue[idx]);
           setIsCheeseCell(false);
         }, 650);
       } else {
-        // Fin de ronda final: ¿ha acertado al menos 5?
         setShowFinalChallenge(false);
         const aciertos = playerList.filter(Boolean).length;
         if (aciertos >= 5) {
@@ -214,7 +207,6 @@ function Board({ selectedTheme, onBackToCategories }) {
             alert(
               `¡Jugador ${currentPlayer} ha acertado ${aciertos}/6 y GANA la partida!`
             );
-            // Aquí podrías reiniciar juego o mostrar modal de final de partida
           }, 400);
         } else {
           setTimeout(() => {
@@ -228,7 +220,6 @@ function Board({ selectedTheme, onBackToCategories }) {
     });
   }
 
-  // Util para ronda final
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -243,7 +234,7 @@ function Board({ selectedTheme, onBackToCategories }) {
 
   return (
     <div className="board-container">
-      <h1 className="board-title">🎯 Trivial Pursuit</h1>
+      <h1 className="board-title">🎯 Trivial</h1>
 
       <div className="turn-indicator">
         <b>Turno del Jugador {currentPlayer}</b>
@@ -277,12 +268,11 @@ function Board({ selectedTheme, onBackToCategories }) {
         />
         <Player
           player={2}
-          position={getCellPosition(playerPositions[2], boardCells)}
-          color={PLAYER_COLORS[2]}
+          position={getCellPosition(playerPositions, boardCells)}
+          color={PLAYER_COLORS}
           offset={8}
         />
 
-        {/* Modal dado */}
         {showDice && (
           <div className="dice-modal">
             <DiceComponent
@@ -293,13 +283,12 @@ function Board({ selectedTheme, onBackToCategories }) {
           </div>
         )}
 
-        {/* Modal PREGUNTA */}
         {showQuestion && (
           <QuestionModal
             visible={true}
             onClose={() => setShowQuestion(false)}
             category={questionCategory}
-              selectedTheme={selectedTheme}
+            selectedTheme={selectedTheme}
             onAnswer={handleAnswered}
             isCheeseCell={isCheeseCell}
           />
@@ -321,4 +310,5 @@ function Board({ selectedTheme, onBackToCategories }) {
     </div>
   );
 }
- export default Board;
+
+export default Board;

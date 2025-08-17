@@ -183,18 +183,21 @@
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
+/* ... resto igual ... */
+
 .category-card h3 {
   font-size: 1.8rem;
   margin: 0 0 1rem 0;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  color: #fff;
+  color: inherit; /* antes estaba #fff */
 }
 
 .category-card p {
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1.5;
   margin: 0;
-  color: #ccc;
+  color: inherit; /* antes estaba #ccc */
+}
 }
 
 .progress-indicator {

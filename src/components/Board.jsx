@@ -268,9 +268,9 @@ function Board({ selectedTheme, onBackToCategories }) {
         />
         <Player
           player={2}
-          position={getCellPosition(playerPositions, boardCells)}
-          color={PLAYER_COLORS}
-          offset={-8}
+          position={getCellPosition(playerPositions[2], boardCells)}
+          color={PLAYER_COLORS[2]}
+          offset={8}
         />
 
         {showDice && (

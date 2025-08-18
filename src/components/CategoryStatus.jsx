@@ -17,7 +17,7 @@ export function CategoryStatus({ categories, playerCategories }) {
       {[1, 2].map((p) => (
         <div
           key={p}
-          style={{ display: "flex", alignItems: "center", margin: "6px 16px" }}
+          style={{ display: "flex", alignItems: "center", margin: "6px 0" }}
         >
                     <span style={{ width: 90 }}>Jugador {p}:</span>         {" "}
           {Object.keys(categories).map((catKey) => {
@@ -37,13 +37,15 @@ export function CategoryStatus({ categories, playerCategories }) {
                   fontSize: 18,
                 }}
               >
-                {has ? categories[catKey].emoji : "❌"}{" "}
+                                {has ? categories[catKey].emoji : "❌"}         
+                   {" "}
               </span>
             );
-          })}{" "}
+          })}
+                 {" "}
         </div>
       ))}
-       {" "}
+         {" "}
     </div>
   );
 }

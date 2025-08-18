@@ -234,7 +234,7 @@ function Board({ selectedTheme, onBackToCategories }) {
 
   return (
     <div className="board-container">
-      <h1 className="board-title">🎯 Trivial</h1>
+      <h1 className="board-title">🎯 Trivia</h1>
 
       <div className="turn-indicator">
         <b>Turno del Jugador {currentPlayer}</b>

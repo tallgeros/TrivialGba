@@ -8,7 +8,7 @@ const ThemeSelector = ({ onThemeSelected }) => {
   const themes = {
     normal: {
       id: 'normal',
-      name: 'Trivial Clásico',
+      name: 'Trivial',
       subtitle: 'Conocimiento general tradicional',
       icon: '🎲',
       color: '#4A90E2',
@@ -86,48 +86,46 @@ const ThemeSelector = ({ onThemeSelected }) => {
 
       <div className="themes-grid">
         {Object.values(themes).map((theme) => (
-          <div
-            key={theme.id}
-            className={`theme-card ${selectedTheme === theme.id ? 'selected' : ''} ${hoveredTheme === theme.id ? 'hovered' : ''}`}
-            onClick={() => handleThemeClick(theme.id)}
-            onMouseEnter={() => setHoveredTheme(theme.id)}
-            onMouseLeave={() => setHoveredTheme(null)}
-            style={{
-              '--theme-color': theme.color,
-              '--theme-gradient': theme.gradient
-            }}
-          >
-            <div className="card-glow"></div>
-            <div className="card-content">
-              <div className="theme-icon">{theme.icon}</div>
-              <h3 className="theme-name">{theme.name}</h3>
-              <p className="theme-subtitle">{theme.subtitle}</p>
-              <p className="theme-description">{theme.description}</p>
-              
-              <div className="selection-indicator">
-                {selectedTheme === theme.id && (
-                  <div className="checkmark">✓</div>
-                )}
+          <React.Fragment key={theme.id}>
+            <div
+              className={`theme-card ${selectedTheme === theme.id ? 'selected' : ''} ${hoveredTheme === theme.id ? 'hovered' : ''}`}
+              onClick={() => handleThemeClick(theme.id)}
+              onMouseEnter={() => setHoveredTheme(theme.id)}
+              onMouseLeave={() => setHoveredTheme(null)}
+              style={{
+                '--theme-color': theme.color,
+                '--theme-gradient': theme.gradient
+              }}
+            >
+              <div className="card-glow"></div>
+              <div className="card-content">
+                <div className="theme-icon">{theme.icon}</div>
+                <h3 className="theme-name">{theme.name}</h3>
+                <p className="theme-subtitle">{theme.subtitle}</p>
+                <p className="theme-description">{theme.description}</p>
+                <div className="selection-indicator">
+                  {selectedTheme === theme.id && (
+                    <div className="checkmark">✓</div>
+                  )}
+                </div>
               </div>
+              <div className="card-border"></div>
             </div>
-            
-            <div className="card-border"></div>
-          </div>
+            {selectedTheme === theme.id && (
+              <div className="continue-section">
+                <button
+                  className="continue-button"
+                  onClick={handleStartGame}
+                  style={{ '--selected-color': themes[selectedTheme].color }}
+                >
+                  <span>Continuar con {themes[selectedTheme].name}</span>
+                  <div className="button-arrow">→</div>
+                </button>
+              </div>
+            )}
+          </React.Fragment>
         ))}
       </div>
-
-      {selectedTheme && (
-        <div className="continue-section">
-          <button
-            className="continue-button"
-            onClick={handleStartGame}
-            style={{ '--selected-color': themes[selectedTheme].color }}
-          >
-            <span>Continuar con {themes[selectedTheme].name}</span>
-            <div className="button-arrow">→</div>
-          </button>
-        </div>
-      )}
     </div>
   );
 };

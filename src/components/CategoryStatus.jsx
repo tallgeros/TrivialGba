@@ -13,13 +13,13 @@ export function CategoryStatus({ categories, playerCategories }) {
         width: 400,
       }}
     >
-            <b>Quesitos Ganados:</b>     {" "}
+      <b>Quesitos Ganados:</b>{" "}
       {[1, 2].map((p) => (
         <div
           key={p}
-          style={{ display: "flex", alignItems: "center", margin: "6px 0" }}
+          style={{ display: "flex", alignItems: "center", justifyContent:"center", margin: "6px 0" }}
         >
-                    <span style={{ width: 90 }}>Jugador {p}:</span>         {" "}
+          <span style={{ width: 90 }}>Jugador {p}:</span>{" "}
           {Object.keys(categories).map((catKey) => {
             const has = playerCategories[p].includes(catKey);
             return (
@@ -37,15 +37,12 @@ export function CategoryStatus({ categories, playerCategories }) {
                   fontSize: 18,
                 }}
               >
-                                {has ? categories[catKey].emoji : "❌"}         
-                   {" "}
+                {has ? categories[catKey].emoji : null}{" "}
               </span>
             );
-          })}
-                 {" "}
+          })}{" "}
         </div>
-      ))}
-         {" "}
+      ))}{" "}
     </div>
   );
 }

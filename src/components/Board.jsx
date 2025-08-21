@@ -16,8 +16,7 @@ import "./board.css";
 
 const NUM_CATEGORIES = Object.keys(categories).length;
 
-function Board({ selectedTheme, onBackToCategories }) {
-  const [showQuestionModal, setShowQuestionModal] = useState(false);
+function Board({ selectedTheme }) {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerPositions, setPlayerPositions] = useState({ 1: 0, 2: 0 });
   const [playerCategories, setPlayerCategories] = useState({ 1: [], 2: [] });
@@ -26,6 +25,9 @@ function Board({ selectedTheme, onBackToCategories }) {
   const [showQuestion, setShowQuestion] = useState(false);
   const [questionCategory, setQuestionCategory] = useState(null);
   const [isCheeseCell, setIsCheeseCell] = useState(false);
+
+  // Estado de animación: casillas por las que pasa y casilla final
+  const [passedCells, setPassedCells] = useState([]);
 
   // Estado de la ronda final (centro)
   const [atCenter, setAtCenter] = useState({ 1: false, 2: false });
@@ -37,19 +39,11 @@ function Board({ selectedTheme, onBackToCategories }) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 600) {
-        // En móvil → tablero ovalado
         document.documentElement.style.setProperty("--board-size", "95vw");
         document.documentElement.style.setProperty("--center-size", "18vw");
       } else {
-        // En desktop → tablero circular normal
-        document.documentElement.style.setProperty(
-          "--board-size",
-          `${BOARD_SIZE}px`
-        );
-        document.documentElement.style.setProperty(
-          "--center-size",
-          `${CENTER_SIZE}px`
-        );
+        document.documentElement.style.setProperty("--board-size", `${BOARD_SIZE}px`);
+        document.documentElement.style.setProperty("--center-size", `${CENTER_SIZE}px`);
       }
     };
     handleResize(); // inicial
@@ -62,15 +56,18 @@ function Board({ selectedTheme, onBackToCategories }) {
     setIsMoving(true);
     let pos = playerPositions[currentPlayer];
     let count = 0;
+    let passed = [];
     function moveStep() {
       pos = (pos + 1) % boardCells.length;
       setPlayerPositions((prev) => ({ ...prev, [currentPlayer]: pos }));
+      passed.push(pos);
+      setPassedCells([...passed]);
       count++;
       if (count < steps) setTimeout(moveStep, 180);
       else {
         setIsMoving(false);
-        const hasAllQuesitos =
-          playerCategories[currentPlayer].length === NUM_CATEGORIES;
+        setPassedCells([]);
+        const hasAllQuesitos = playerCategories[currentPlayer].length === NUM_CATEGORIES;
         if (hasAllQuesitos && boardCells[pos].type === "center") {
           iniciarRondaCentro();
         } else {
@@ -87,7 +84,7 @@ function Board({ selectedTheme, onBackToCategories }) {
     const category = cell.category;
     setQuestionCategory(category);
     setIsCheeseCell(cell.type === "cheese");
-    setShowQuestion(true);
+    setShowQuestion(true); // Solo cuando llegó, y terminó de moverse
   }
 
   // ===================== RESPUESTA PREGUNTA NORMAL ===================
@@ -159,13 +156,17 @@ function Board({ selectedTheme, onBackToCategories }) {
     }
     let pos = playerPositions[currentPlayer];
     let count = 0;
+    let passed = [];
     function step() {
       pos = (pos + 1) % boardCells.length;
       setPlayerPositions((prev) => ({ ...prev, [currentPlayer]: pos }));
+      passed.push(pos);
+      setPassedCells([...passed]);
       count++;
       if (pos !== centerIdx && count < steps) setTimeout(step, 180);
       else {
         setIsMoving(false);
+        setPassedCells([]);
         if (pos === centerIdx) {
           iniciarRondaCentro();
         } else {
@@ -234,7 +235,7 @@ function Board({ selectedTheme, onBackToCategories }) {
 
   return (
     <div className="board-container">
-      <h1 className="board-title">🎯 Trivia</h1>
+      <h1 className="board-title">🎯 Trivial</h1>
 
       <div className="turn-indicator">
         <b>Turno del Jugador {currentPlayer}</b>
@@ -257,19 +258,21 @@ function Board({ selectedTheme, onBackToCategories }) {
             position={getCellPosition(i, boardCells)}
             category={categories[cell.category]}
             isCheese={cell.type === "cheese"}
+            isPassed={passedCells.includes(i)}      // Zoom por donde pasa
+            isCurrent={playerPositions[currentPlayer] === i} // Zoom casilla actual
           />
         ))}
 
         <Player
           player={1}
           position={getCellPosition(playerPositions[1], boardCells)}
-          color={PLAYER_COLORS[1]}
+          color={PLAYER_COLORS}
           offset={-8}
         />
         <Player
           player={2}
           position={getCellPosition(playerPositions[2], boardCells)}
-          color={PLAYER_COLORS[2]}
+          color={PLAYER_COLORS}
           offset={8}
         />
 
@@ -312,3 +315,4 @@ function Board({ selectedTheme, onBackToCategories }) {
 }
 
 export default Board;
+

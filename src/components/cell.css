@@ -4,6 +4,20 @@
   user-select: none;
   box-sizing: border-box;
   position: absolute;
+  transition: transform 0.16s cubic-bezier(.55, .22, .37, .88);
+}
+
+/* Casillas por las que pasa el jugador */
+.cell.passed {
+  transform: scale(1.18);
+  z-index: 2;
+}
+
+/* Casilla donde se queda el jugador */
+.cell.current {
+  transform: scale(1.3);
+  box-shadow: 0 0 15px #0fd7;
+  z-index: 3;
 }
 
 .cheeseEmoji {
@@ -21,4 +35,5 @@
   font-weight: bold;
   user-select: none;
 }
+
 

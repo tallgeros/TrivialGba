@@ -4,10 +4,23 @@ import './cell.css';
 const CELL_SIZE = 35;
 const CHEESE_SIZE = 48; // tamaño extra para casilla quesito
 
-export function Cell({ cell, index, position, isCheese, category }) {
+export function Cell({
+  cell,
+  index,
+  position,
+  isCheese,
+  category,
+  isPassed = false,
+  isCurrent = false, // Recibe los nuevos props desde Board
+}) {
+  // Calcula clases para animaciones visuales
+  let cellClass = "cell";
+  if (isPassed) cellClass += " passed";
+  if (isCurrent) cellClass += " current";
+
   return (
     <div
-      className="cell"
+      className={cellClass}
       style={{
         left: position.x,
         top: position.y,
@@ -20,6 +33,8 @@ export function Cell({ cell, index, position, isCheese, category }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: isCurrent ? 3 : isPassed ? 2 : 1, // Mejora visual por encima
+        transition: 'transform 0.16s cubic-bezier(.55, .22, .37, .88)', // Suaviza la animación
       }}
     >
       {isCheese && <span className="cheeseEmoji" style={{ fontSize: 18 }}>🧀</span>}
@@ -27,4 +42,5 @@ export function Cell({ cell, index, position, isCheese, category }) {
     </div>
   );
 }
+
 

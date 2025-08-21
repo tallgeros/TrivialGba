@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import ParticleEffects from './ParticleEffects';
-import { questionsDatabase } from '../data/questions/index';
-import './questionModal.css';
+const handleParticlesComplete = () => {
+    setShowParticles(false);
+  };import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import ParticleEffects from "./ParticleEffects";
+import { questionsDatabase } from "../data/questions/index";
+import "./questionModal.css";
 
 const modalVariants = {
   hidden: { opacity: 0, y: "100%" },
   visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: "100%" }
+  exit: { opacity: 0, y: "100%" },
 };
 
 const THEME_CATEGORIES = {
   normal: {
-    history: { name: 'Historia', emoji: '📚', color: '#8B4513' },
-    sports: { name: 'Deportes', emoji: '⚽', color: '#FF8C00' },
-    entertainment: { name: 'Entretenimiento', emoji: '🎬', color: '#FFD700' },
-    science: { name: 'Ciencias', emoji: '🔬', color: '#32CD32' },
-    geography: { name: 'Geografía', emoji: '🌍', color: '#4169E1' },
-    art: { name: 'Arte', emoji: '🎨', color: '#FF69B4' }
+    history: { name: "Historia", emoji: "📚", color: "#8B4513" },
+    sports: { name: "Deportes", emoji: "⚽", color: "#FF8C00" },
+    entertainment: { name: "Entretenimiento", emoji: "🎬", color: "#FFD700" },
+    science: { name: "Ciencias", emoji: "🔬", color: "#32CD32" },
+    geography: { name: "Geografía", emoji: "🌍", color: "#4169E1" },
+    art: { name: "Arte", emoji: "🎨", color: "#FF69B4" },
   },
-  // ... (los demás temas igual que antes)
   lotr: {
-    history: { name: 'Historia', emoji: '📚', color: '#8B4513' },
-    sports: { name: 'Combates', emoji: '⚔️', color: '#FF8C00' },
-    entertainment: { name: 'Películas', emoji: '🎬', color: '#FFD700' },
-    science: { name: 'Magia', emoji: '🔮', color: '#32CD32' },
-    geography: { name: 'Lugares', emoji: '🏔️', color: '#4169E1' },
-    art: { name: 'Cultura', emoji: '🎭', color: '#FF69B4' }
+    history: { name: "Historia", emoji: "📚", color: "#8B4513" },
+    sports: { name: "Combates", emoji: "⚔️", color: "#FF8C00" },
+    entertainment: { name: "Películas", emoji: "🎬", color: "#FFD700" },
+    science: { name: "Magia", emoji: "🔮", color: "#32CD32" },
+    geography: { name: "Lugares", emoji: "🏔️", color: "#4169E1" },
+    art: { name: "Cultura", emoji: "🎭", color: "#FF69B4" },
   },
-  // agregue acá igual todos los demás... batman, marvel, harryPotter, starWars
 };
 
 export default function QuestionModal({
   visible,
   category,
-  selectedTheme = 'normal',
+  selectedTheme = "normal",
   onAnswer,
   onClose,
-  isCheeseCell = false
+  isCheeseCell = false,
 }) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -50,25 +50,23 @@ export default function QuestionModal({
 
   useEffect(() => setMounted(true), []);
 
-  // Bloquear scroll del body SOLO si visible Y móvil
   useEffect(() => {
     if (visible) {
-      if(window.innerWidth <= 600) {
-        document.body.style.overflow = 'hidden';
+      if (window.innerWidth <= 600) {
+        document.body.style.overflow = "hidden";
       }
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
   }, [visible]);
 
-  // Obtener info categoría según tema
   const getCategoryInfo = () => {
-    const themeCategories = THEME_CATEGORIES[selectedTheme] || THEME_CATEGORIES.normal;
+    const themeCategories =
+      THEME_CATEGORIES[selectedTheme] || THEME_CATEGORIES.normal;
     return themeCategories[category] || themeCategories.history;
   };
   const categoryInfo = getCategoryInfo();
 
-  // Carga pregunta al abrir modal
   useEffect(() => {
     if (visible && category) {
       loadRandomQuestion();
@@ -84,14 +82,13 @@ export default function QuestionModal({
     }
   }, [visible, category, selectedTheme]);
 
-  // Timer
   useEffect(() => {
     if (!visible || showResult) return;
     if (timeLeft === 0) {
       handleTimeout();
       return;
     }
-    const timer = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+    const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(timer);
   }, [visible, timeLeft, showResult]);
 
@@ -102,11 +99,16 @@ export default function QuestionModal({
       setCurrentQuestion(questions[qIndex]);
     } else {
       const tempQuestion = {
-        question: `¿Pregunta de ${categoryInfo.name} - ${selectedTheme.toUpperCase()}?`,
+        question: `¿Pregunta de ${
+          categoryInfo.name
+        } - ${selectedTheme.toUpperCase()}?`,
         options: ["Opción A", "Opción B", "Opción C", "Opción D"],
         correctAnswer: 1,
         explanation: `Esta es una pregunta de prueba para la categoría ${categoryInfo.name} del tema ${selectedTheme}.`,
-        image: `https://via.placeholder.com/400x200/${categoryInfo.color.replace('#', '')}/FFFFFF?text=${categoryInfo.emoji}+${categoryInfo.name}`,
+        image: `https://via.placeholder.com/400x200/${categoryInfo.color.replace(
+          "#",
+          ""
+        )}/FFFFFF?text=${categoryInfo.emoji}+${categoryInfo.name}`,
       };
       setCurrentQuestion(tempQuestion);
     }
@@ -121,12 +123,12 @@ export default function QuestionModal({
     setShowResult(true);
     setIsCorrect(false);
 
-    setTimeout(() => setShowParticles(true), 3000);
+    // setTimeout(() => setShowParticles(true), 5000); // 5 segundos
 
     setTimeout(() => {
       onAnswer && onAnswer(false, isCheeseCell);
       onClose && onClose();
-    }, 5000);
+    }, 10000); // 5s resultado + 5s partículas
   }
 
   function handleAnswerSelect(index) {
@@ -136,34 +138,30 @@ export default function QuestionModal({
     setIsCorrect(correct);
     setShowResult(true);
 
-    setTimeout(() => setShowParticles(true), 2000);
+    setTimeout(() => setShowParticles(true), 6000); // 5 segundos
 
     setTimeout(() => {
       onAnswer && onAnswer(correct, isCheeseCell);
       onClose && onClose();
-    }, 7000);
+    }, 10000); // 5s resultado + 5s partículas
   }
-
-  const handleParticlesComplete = () => {
-    setShowParticles(false);
-  };
 
   const renderOptions = () => {
     if (!currentQuestion || !currentQuestion.options) return null;
 
     const buttons = [];
-    for(let i=0; i < currentQuestion.options.length; i++) {
+    for (let i = 0; i < currentQuestion.options.length; i++) {
       const option = currentQuestion.options[i];
 
-      let buttonClass = 'option-button';
+      let buttonClass = "option-button";
 
-      if(showResult) {
-        if(i === selectedAnswer && isCorrect) {
-          buttonClass += ' option-correct-selected';
+      if (showResult) {
+        if (i === selectedAnswer && isCorrect) {
+          buttonClass += " option-correct-selected";
         } else if (i === selectedAnswer && !isCorrect) {
-          buttonClass += ' option-wrong-selected';
+          buttonClass += " option-wrong-selected";
         } else if (i === currentQuestion.correctAnswer) {
-          buttonClass += ' option-correct-answer';
+          buttonClass += " option-correct-answer";
         }
       }
 
@@ -174,20 +172,23 @@ export default function QuestionModal({
           disabled={showResult}
           className={buttonClass}
           style={{
-            borderColor: !showResult ? '#00d4ff' : undefined
+            borderColor: !showResult ? "#00d4ff" : undefined,
           }}
-          onMouseEnter={e => {
-            if(!showResult) {
+          onMouseEnter={(e) => {
+            if (!showResult) {
               e.target.style.borderColor = categoryInfo.color;
             }
           }}
-          onMouseLeave={e => {
-            if(!showResult) {
-              e.target.style.borderColor = '#00d4ff';
+          onMouseLeave={(e) => {
+            if (!showResult) {
+              e.target.style.borderColor = "#00d4ff";
             }
           }}
         >
-          <strong style={{ color: categoryInfo.color }}>{String.fromCharCode(65 + i)}.</strong> {option}
+          <strong style={{ color: categoryInfo.color }}>
+            {String.fromCharCode(65 + i)}.
+          </strong>{" "}
+          {option}
         </button>
       );
     }
@@ -207,12 +208,12 @@ export default function QuestionModal({
             initial="hidden"
             animate="visible"
             exit="exit"
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            onClick={e => e.stopPropagation()} // evitar cierre fuera del modal
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            onClick={(e) => e.stopPropagation()}
           >
             {showParticles && (
               <ParticleEffects
-                type={isCorrect ? 'fireworks' : 'bomb'}
+                type={isCorrect ? "fireworks" : "bomb"}
                 isVisible={showParticles}
                 onComplete={handleParticlesComplete}
               />
@@ -221,8 +222,8 @@ export default function QuestionModal({
               className="modal-content"
               style={{
                 opacity: showParticles ? 0 : 1,
-                visibility: showParticles ? 'hidden' : 'visible',
-                transition: 'opacity 0.3s ease, visibility 0.3s ease',
+                visibility: showParticles ? "hidden" : "visible",
+                transition: "opacity 0.3s ease, visibility 0.3s ease",
               }}
             >
               <div
@@ -234,11 +235,14 @@ export default function QuestionModal({
                 <span className="category-label">
                   {categoryInfo.emoji} {categoryInfo.name}
                 </span>
-                {isCheeseCell && <span className="cheese-badge">🧀 QUESITO</span>}
-                <span className={`timer ${timeLeft <= 10 ? 'timer-warning' : ''}`}>
+                {isCheeseCell && (
+                  <span className="cheese-badge">🧀 QUESITO</span>
+                )}
+                <span
+                  className={`timer ${timeLeft <= 10 ? "timer-warning" : ""}`}
+                >
                   ⏱️ {timeLeft}s
                 </span>
-                {/* NO boton cerrar */}
               </div>
 
               <div className="question-content-area">
@@ -246,20 +250,34 @@ export default function QuestionModal({
                   <img
                     src={
                       currentQuestion.image ||
-                      `https://via.placeholder.com/400x200/${categoryInfo.color.replace('#', '')}/FFFFFF?text=${categoryInfo.emoji}+${categoryInfo.name}`
+                      `https://via.placeholder.com/400x200/${categoryInfo.color.replace(
+                        "#",
+                        ""
+                      )}/FFFFFF?text=${categoryInfo.emoji}+${categoryInfo.name}`
                     }
                     alt="Pregunta"
                     className="question-image"
                   />
                 ) : (
-                  <div className={`result-container ${isCorrect ? 'result-success' : 'result-error'}`}>
-                    <div className={`result-title ${isCorrect ? 'title-success' : 'title-error'}`}>
-                      {isCorrect ? '🎉 ¡CORRECTO! 🎉' : '💥 ¡INCORRECTO! 💥'}
+                  <div
+                    className={`result-container ${
+                      isCorrect ? "result-success" : "result-error"
+                    }`}
+                  >
+                    <div
+                      className={`result-title ${
+                        isCorrect ? "title-success" : "title-error"
+                      }`}
+                    >
+                      {isCorrect ? "🎉 ¡CORRECTO! 🎉" : "💥 ¡INCORRECTO! 💥"}
                     </div>
-                    <div className="result-explanation">{currentQuestion.explanation}</div>
+                    <div className="result-explanation">
+                      {currentQuestion.explanation}
+                    </div>
                     {isCorrect && (
                       <div className="points-earned">
-                        ✨ {isCheeseCell ? '+1 QUESITO 🧀' : 'sigue jugando ⭐'} ✨
+                        ✨ {isCheeseCell ? "+1 QUESITO 🧀" : "sigue jugando ⭐"}{" "}
+                        ✨
                       </div>
                     )}
                   </div>
@@ -272,7 +290,8 @@ export default function QuestionModal({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>, document.body
+    </AnimatePresence>,
+    document.body
   );
-} 
+}
 

@@ -1,6 +1,3 @@
-import React from "react";
-import "./player.css";
-
 export function Player({ player, position, color, offset = 0 }) {
   return (
     <div
@@ -20,9 +17,11 @@ export function Player({ player, position, color, offset = 0 }) {
         fontWeight: "bold",
         fontSize: 12,
         boxShadow: "0 1px 4px 0 #0004",
+        zIndex: 10,       
       }}
     >
       {player}
     </div>
   );
 }
+

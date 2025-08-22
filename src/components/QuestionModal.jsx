@@ -1,6 +1,4 @@
-const handleParticlesComplete = () => {
-    setShowParticles(false);
-  };import React, { useEffect, useState } from "react";
+;import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ParticleEffects from "./ParticleEffects";
@@ -118,7 +116,9 @@ export default function QuestionModal({
     setShowParticles(false);
     setTimeLeft(30);
   }
-
+const handleParticlesComplete = () => {
+    setShowParticles(false);
+  }
   function handleTimeout() {
     setShowResult(true);
     setIsCorrect(false);

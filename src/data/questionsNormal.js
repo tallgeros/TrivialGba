@@ -1,19 +1,19 @@
 export const questionsNormal = {
-  history: [
+history: [
     {
       id: 1,
       question: "¿En qué año comenzó la Segunda Guerra Mundial?",
       image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
-      options: ["1937", "1939", "1941", "1943"],
-      correctAnswer: 1,
+      options: ["1939", "1937", "1941", "1943"],
+      correctAnswer: 0,
       explanation: "La Segunda Guerra Mundial comenzó el 1 de septiembre de 1939 con la invasión alemana de Polonia."
     },
     {
       id: 2,
       question: "¿Quién fue el primer emperador romano?",
       image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
-      options: ["Julio César", "Augusto", "Nerón", "Trajano"],
-      correctAnswer: 1,
+      options: ["Julio César", "Nerón", "Augusto", "Trajano"],
+      correctAnswer: 2,
       explanation: "Augusto (Octavio) fue el primer emperador romano, gobernando desde el 27 a.C."
     },
     {
@@ -60,8 +60,8 @@ export const questionsNormal = {
       id: 8,
       question: "¿Qué faraón egipcio ordenó construir la Gran Pirámide de Giza?",
       image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
-      options: ["Tutankamón", "Keops", "Ramsés II", "Nefertiti"],
-      correctAnswer: 1,
+      options: ["Keops", "Tutankamón", "Ramsés II", "Nefertiti"],
+      correctAnswer: 0,
       explanation: "Keops (o Khufu) ordenó construir la Gran Pirámide de Giza hacia 2580-2560 a.C."
     },
     {
@@ -83,11 +83,219 @@ export const questionsNormal = {
     {
       id: 11,
       question: "¿Cuál fue la primera civilización en usar la escritura?",
-      options: ["Egipcios", "Sumerios", "Griegos", "Romanos"],
-      correctAnswer: 1,
-      explanation: "Los sumerios desarrollaron la escritura cuneiforme hacia el 3200 a.C.",
-      image: "https://placehold.co/400x200/8B4513/FFFFFF?text=📚+Historia"
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Sumerios", "Egipcios", "Griegos", "Romanos"],
+      correctAnswer: 0,
+      explanation: "Los sumerios desarrollaron la escritura cuneiforme hacia el 3200 a.C."
     },
+    {
+      id: 12,
+      question: "¿Quién pintó la Mona Lisa?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Leonardo da Vinci", "Miguel Ángel", "Pablo Picasso", "Vincent van Gogh"],
+      correctAnswer: 0,
+      explanation: "Leonardo da Vinci completó la Mona Lisa en el siglo XVI durante el Renacimiento italiano."
+    },
+    {
+      id: 13,
+      question: "¿Dónde se originaron los Juegos Olímpicos?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Egipto", "Grecia", "Roma", "China"],
+      correctAnswer: 1,
+      explanation: "Los Juegos Olímpicos se originaron en la antigua Grecia en el año 776 a.C."
+    },
+    {
+      id: 14,
+      question: "¿Qué filósofo fue maestro de Alejandro Magno?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Sócrates", "Aristóteles", "Platón", "Heráclito"],
+      correctAnswer: 1,
+      explanation: "Aristóteles fue contratado por Filipo II de Macedonia para educar a Alejandro alrededor del 343 a.C."
+    },
+    {
+      id: 15,
+      question: "¿Qué civilización construyó los famosos moáis en la Isla de Pascua?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Maorí", "Polinesia", "Rapa Nui", "Inca"],
+      correctAnswer: 2,
+      explanation: "La cultura Rapa Nui esculpió los moáis entre los siglos X y XVI d.C."
+    },
+    {
+      id: 16,
+      question: "¿Quién fue el último gobernante del Imperio Azteca antes de la conquista española?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Moctezuma I", "Cuitláhuac", "Cuauhtémoc", "Moctezuma II"],
+      correctAnswer: 3,
+      explanation: "Moctezuma II (Xocoyotzin) era el tlatoani cuando Hernán Cortés llegó en 1519."
+    },
+    {
+      id: 17,
+      question: "¿En qué año se firmó la Carta Magna en Inglaterra?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1215", "1066", "1453", "1649"],
+      correctAnswer: 0,
+      explanation: "La Carta Magna fue firmada por el rey Juan Sin Tierra en 1215, estableciendo límites al poder real."
+    },
+    {
+      id: 18,
+      question: "¿En qué año se disolvió la Unión Soviética?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1990", "1991", "1989", "1992"],
+      correctAnswer: 1,
+      explanation: "La Unión Soviética se disolvió oficialmente el 26 de diciembre de 1991."
+    },
+    {
+      id: 19,
+      question: "¿Quién fue el primer presidente negro de Sudáfrica?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Nelson Mandela", "Thabo Mbeki", "Jacob Zuma", "Cyril Ramaphosa"],
+      correctAnswer: 0,
+      explanation: "Nelson Mandela se convirtió en el primer presidente negro de Sudáfrica en 1994."
+    },
+    {
+      id: 20,
+      question: "¿En qué año ingresó España en la Unión Europea?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1982", "1992", "1986", "1995"],
+      correctAnswer: 2,
+      explanation: "España ingresó en la Comunidad Económica Europea (actual UE) el 1 de enero de 1986."
+    },
+    {
+      id: 21,
+      question: "¿Qué conflicto comenzó con los atentados del 11 de septiembre de 2001?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Guerra de Siria", "Guerra de Irak", "Guerra de Afganistán", "Guerra de Yemen"],
+      correctAnswer: 2,
+      explanation: "La Guerra de Afganistán (2001-2021) comenzó como respuesta a los atentados del 11-S."
+    },
+    {
+      id: 22,
+      question: "¿Qué pandemia global ocurrió en 2020?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["COVID-19", "SARS", "Ébola", "Gripe A"],
+      correctAnswer: 0,
+      explanation: "La pandemia de COVID-19 fue declarada por la OMS en marzo de 2020."
+    },
+    {
+      id: 23,
+      question: "¿Quién fue la primera mujer presidenta de Chile?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Michelle Bachelet", "Isabel Allende", "Evelyn Matthei", "María Teresa Ruiz"],
+      correctAnswer: 0,
+      explanation: "Michelle Bachelet fue presidenta de Chile en dos periodos (2006-2010 y 2014-2018)."
+    },
+    {
+      id: 24,
+      question: "¿Qué tratado estableció la Constitución Europea en 2004?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Tratado de Maastricht", "Tratado de Lisboa", "Tratado de Roma", "Tratado de Niza"],
+      correctAnswer: 1,
+      explanation: "El Tratado de Lisboa, firmado en 2007, estableció las bases de la Constitución Europea."
+    },
+    {
+      id: 25,
+      question: "¿Qué país abandonó la Unión Europea en 2020?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Reino Unido", "Francia", "Italia", "Alemania"],
+      correctAnswer: 0,
+      explanation: "El Brexit se hizo efectivo el 31 de enero de 2020."
+    },
+    {
+      id: 26,
+      question: "¿Qué líder cubano gobernó desde 1959 hasta 2008?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Fulgencio Batista", "Fidel Castro", "Raúl Castro", "Che Guevara"],
+      correctAnswer: 1,
+      explanation: "Fidel Castro gobernó Cuba desde 1959 hasta que traspasó el poder a su hermano Raúl in 2008."
+    },
+    {
+      id: 27,
+      question: "¿En qué año se produjo el primer alunizaje tripulado?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1965", "1971", "1969", "1973"],
+      correctAnswer: 2,
+      explanation: "El Apollo 11 alunizó el 20 de julio de 1969 con Neil Armstrong y Buzz Aldrin."
+    },
+    {
+      id: 28,
+      question: "¿Qué presidente estadounidense fue asesinado en 1963?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["John F. Kennedy", "Richard Nixon", "Lyndon B. Johnson", "Dwight Eisenhower"],
+      correctAnswer: 0,
+      explanation: "John F. Kennedy fue asesinado el 22 de noviembre de 1963 en Dallas, Texas."
+    },
+    {
+      id: 29,
+      question: "¿En qué año se fundó la Organización de las Naciones Unidas (ONU)?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1942", "1948", "1945", "1951"],
+      correctAnswer: 2,
+      explanation: "La ONU se fundó el 24 de octubre de 1945 tras la Segunda Guerra Mundial."
+    },
+    {
+      id: 30,
+      question: "¿Qué símbolo de la Guerra Fría dividió Berlín desde 1961 hasta 1989?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Telón de Acero", "Muro de Berlín", "Cortina de Hierro", "Línea de Control"],
+      correctAnswer: 1,
+      explanation: "El Muro de Berlín dividió la ciudad desde 1961 hasta su caída en 1989."
+    },
+    {
+      id: 31,
+      question: "¿Qué conflicto árabe-israelí ocurrió en 1973?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Guerra del Líbano", "Guerra de los Seis Días", "Guerra de Yom Kippur", "Intifada"],
+      correctAnswer: 2,
+      explanation: "La Guerra de Yom Kippur (octubre de 1973) enfrentó a Israel contra una coalición árabe."
+    },
+    {
+      id: 32,
+      question: "¿Qué país experimentó la Revolución Islámica en 1979?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Irak", "Irán", "Arabia Saudita", "Afganistán"],
+      correctAnswer: 1,
+      explanation: "La Revolución Islámica de Irán derrocó al Shah y estableció una república islámica."
+    },
+    {
+      id: 33,
+      question: "¿Qué desastre nuclear ocurrió en Ucrania en 1986?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Three Mile Island", "Chernóbil", "Fukushima", "Mayak"],
+      correctAnswer: 1,
+      explanation: "El accidente de Chernóbil (26 de abril de 1986) fue el peor desastre nuclear de la historia."
+    },
+    {
+      id: 34,
+      question: "¿Qué presidente sudafricano liberó a Nelson Mandela?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["P.W. Botha", "Jacob Zuma", "F.W. de Klerk", "Thabo Mbeki"],
+      correctAnswer: 2,
+      explanation: "F.W. de Klerk liberó a Mandela en 1990 y acabó con el apartheid."
+    },
+    {
+      id: 35,
+      question: "¿En qué año se implementó el Euro como moneda física?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1999", "2000", "2001", "2002"],
+      correctAnswer: 3,
+      explanation: "El euro comenzó a circular físicamente el 1 de enero de 2002 en 12 países de la UE."
+    },
+    {
+      id: 36,
+      question: "¿Qué guerra civil duró 36 años en Guatemala?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["1960-1996", "1970-2006", "1954-1990", "1980-2016"],
+      correctAnswer: 0,
+      explanation: "La guerra civil de Guatemala (1960-1996) causó más de 200,000 víctimas mortales."
+    },
+    {
+      id: 37,
+      question: "¿Qué país fue dividido en dos tras la Segunda Guerra Mundial?",
+      image: "https://placehold.co/300x200/8B4513/FFFFFF?text=Historia",
+      options: ["Vietnam", "Alemania", "Corea", "Yemen"],
+      correctAnswer: 2,
+      explanation: "Corea fue dividida en Norte y Sur en el paralelo 38 tras la guerra de Corea (1950-1953)."
+    }
   ],
 
   sports: [
@@ -186,6 +394,166 @@ export const questionsNormal = {
       correctAnswer: 2,
       explanation: "Brasil ha ganado 5 Copas del Mundo (1958, 1962, 1970, 1994, 2002).",
       image: "https://placehold.co/400x200/FF8C00/FFFFFF?text=⚽+Deportes"
+    },
+     {
+      id: 13,
+      question: "¿Quién ganó el Mundial de Fútbol 2022?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Francia", "Brasil", "Argentina", "España"],
+      correctAnswer: 2,
+      explanation: "Argentina ganó el Mundial de Qatar 2022 tras vencer a Francia en la final."
+    },
+    {
+      id: 14,
+      question: "¿Qué tenista tiene más títulos de Grand Slam en la era abierta?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Novak Djokovic", "Rafael Nadal", "Roger Federer", "Andy Murray"],
+      correctAnswer: 0,
+      explanation: "Novak Djokovic ostenta el récord con 24 títulos de Grand Slam (2023)."
+    },
+    {
+      id: 15,
+      question: "¿Qué equipo ganó la NBA en 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Golden State Warriors", "Los Angeles Lakers", "Denver Nuggets", "Milwaukee Bucks"],
+      correctAnswer: 2,
+      explanation: "Denver Nuggets ganó su primer anillo de la NBA en 2023."
+    },
+    {
+      id: 16,
+      question: "¿Qué ciclista ganó el Tour de Francia 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Tadej Pogačar", "Jonas Vingegaard", "Egan Bernal", "Primož Roglič"],
+      correctAnswer: 1,
+      explanation: "Jonas Vingegaard ganó el Tour de Francia 2023 por segunda vez consecutiva."
+    },
+    {
+      id: 17,
+      question: "¿Qué selección ganó la Copa Mundial Femenina de Fútbol 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Estados Unidos", "España", "Inglaterra", "Alemania"],
+      correctAnswer: 1,
+      explanation: "España ganó su primer Mundial Femenino en 2023 tras vencer a Inglaterra."
+    },
+    {
+      id: 18,
+      question: "¿Quién ganó el Balón de Oro 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Karim Benzema", "Kylian Mbappé", "Lionel Messi", "Erling Haaland"],
+      correctAnswer: 2,
+      explanation: "Lionel Messi ganó su octavo Balón de Oro en 2023."
+    },
+    {
+      id: 19,
+      question: "¿Qué nadadora batió el récord de medallas de oro en Mundiales en 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Katie Ledecky", "Summer McIntosh", "Ariarne Titmus", "Kaylee McKeown"],
+      correctAnswer: 0,
+      explanation: "Katie Ledecky superó a Michael Phelps con 16 medallas de oro en Mundiales."
+    },
+    {
+      id: 20,
+      question: "¿Qué país organizó los Juegos Olímpicos de Invierno 2022?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Japón", "Corea del Sur", "China", "Italia"],
+      correctAnswer: 2,
+      explanation: "China organizó los Juegos Olímpicos de Invierno 2022 en Beijing."
+    },
+    {
+      id: 21,
+      question: "¿Qué tenista ganó el Abierto de Australia 2024?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Novak Djokovic", "Jannik Sinner", "Carlos Alcaraz", "Daniil Medvedev"],
+      correctAnswer: 1,
+      explanation: "Jannik Sinner ganó su primer Grand Slam en Australia 2024."
+    },
+    {
+      id: 22,
+      question: "¿Qué equipo ganó la Champions League 2022-23?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Real Madrid", "Manchester City", "Inter de Milán", "Bayern Múnich"],
+      correctAnswer: 1,
+      explanation: "Manchester City ganó su primera Champions League en 2023."
+    },
+    {
+      id: 23,
+      question: "¿Quién ganó el Super Bowl LVII (2023)?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Kansas City Chiefs", "Philadelphia Eagles", "Los Angeles Rams", "Tampa Bay Buccaneers"],
+      correctAnswer: 0,
+      explanation: "Kansas City Chiefs ganó el Super Bowl 2023 ante Philadelphia Eagles."
+    },
+    {
+      id: 24,
+      question: "¿Qué piloto ganó el Mundial de Fórmula 1 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Lewis Hamilton", "Max Verstappen", "Charles Leclerc", "Fernando Alonso"],
+      correctAnswer: 1,
+      explanation: "Max Verstappen ganó su tercer título consecutivo en 2023."
+    },
+    {
+      id: 25,
+      question: "¿Qué país ganó la Copa Davis 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Canadá", "Italia", "Australia", "España"],
+      correctAnswer: 1,
+      explanation: "Italia ganó la Copa Davis 2023 tras 47 años sin título."
+    },
+    {
+      id: 26,
+      question: "¿Qué jugador de baloncesto fue MVP de la NBA en 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Nikola Jokić", "Joel Embiid", "Giannis Antetokounmpo", "Jayson Tatum"],
+      correctAnswer: 1,
+      explanation: "Joel Embiid ganó su primer MVP de la NBA en 2023."
+    },
+    {
+      id: 27,
+      question: "¿Qué equipo ganó la Eurocopa 2020 (celebrada en 2021)?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Inglaterra", "Italia", "España", "Francia"],
+      correctAnswer: 1,
+      explanation: "Italia ganó la Eurocopa 2020 tras vencer a Inglaterra en penaltis."
+    },
+    {
+      id: 28,
+      question: "¿Quién ganó el Abierto de Estados Unidos de golf 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Rory McIlroy", "Scottie Scheffler", "Jon Rahm", "Wyndham Clark"],
+      correctAnswer: 3,
+      explanation: "Wyndham Clark ganó su primer major en el US Open 2023."
+    },
+    {
+      id: 29,
+      question: "¿Qué país organizará los Juegos Olímpicos 2024?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Japón", "Francia", "Estados Unidos", "Australia"],
+      correctAnswer: 1,
+      explanation: "París (Francia) organizará los Juegos Olímpicos 2024."
+    },
+    {
+      id: 30,
+      question: "¿Qué atleta batió el récord del mundo de maratón en 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Eliud Kipchoge", "Kelvin Kiptum", "Kenenisa Bekele", "Mo Farah"],
+      correctAnswer: 1,
+      explanation: "Kelvin Kiptum batió el récord mundial con 2:00:35 en el Maratón de Chicago 2023."
+    },
+    {
+      id: 31,
+      question: "¿Qué equipo ganó la Liga Española de Fútbol 2022-23?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Real Madrid", "Atlético de Madrid", "Barcelona", "Sevilla"],
+      correctAnswer: 2,
+      explanation: "Barcelona ganó LaLiga 2022-23 con Xavi Hernández como entrenador."
+    },
+    {
+      id: 32,
+      question: "¿Quién ganó el Wimbledon 2023?",
+      image: "https://placehold.co/300x200/FF8C00/FFFFFF?text=Deportes",
+      options: ["Novak Djokovic", "Carlos Alcaraz", "Nick Kyrgios", "Jannik Sinner"],
+      correctAnswer: 1,
+      explanation: "Carlos Alcaraz ganó su primer Wimbledon en 2023 ante Novak Djokovic."
     }
   ],
 

@@ -51,6 +51,28 @@ function Board({ selectedTheme }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Control de scroll para móvil cuando aparece/desaparece el modal
+  useEffect(() => {
+    if (showQuestion) {
+      // Cuando se abre el modal: bloquear scroll del body
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      // Cuando se cierra el modal: restaurar scroll del body
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    // Cleanup: restaurar scroll al desmontar componente
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [showQuestion]);
+
   // ===================== MOVIMIENTO ===================
   function movePlayer(steps) {
     setIsMoving(true);
@@ -69,9 +91,15 @@ function Board({ selectedTheme }) {
         setPassedCells([]);
         const hasAllQuesitos = playerCategories[currentPlayer].length === NUM_CATEGORIES;
         if (hasAllQuesitos && boardCells[pos].type === "center") {
-          iniciarRondaCentro();
+          // RETRASO: Esperar 1 segundo antes de iniciar ronda centro
+          setTimeout(() => {
+            iniciarRondaCentro();
+          }, 1000);
         } else {
-          checkCell(pos);
+          // RETRASO: Esperar 1 segundo antes de mostrar pregunta
+          setTimeout(() => {
+            checkCell(pos);
+          }, 1000);
         }
       }
     }
@@ -84,7 +112,7 @@ function Board({ selectedTheme }) {
     const category = cell.category;
     setQuestionCategory(category);
     setIsCheeseCell(cell.type === "cheese");
-    setShowQuestion(true); // Solo cuando llegó, y terminó de moverse
+    setShowQuestion(true); // Ahora se dispara 1 segundo después
   }
 
   // ===================== RESPUESTA PREGUNTA NORMAL ===================
@@ -168,9 +196,15 @@ function Board({ selectedTheme }) {
         setIsMoving(false);
         setPassedCells([]);
         if (pos === centerIdx) {
-          iniciarRondaCentro();
+          // RETRASO: Esperar 1 segundo antes de iniciar ronda centro
+          setTimeout(() => {
+            iniciarRondaCentro();
+          }, 1000);
         } else {
-          checkCell(pos);
+          // RETRASO: Esperar 1 segundo antes de mostrar pregunta
+          setTimeout(() => {
+            checkCell(pos);
+          }, 1000);
         }
       }
     }
@@ -235,15 +269,16 @@ function Board({ selectedTheme }) {
 
   return (
     <div className="board-container">
-      <h1 className="board-title">🎯 Trivial</h1>
+      <div className="header">
+        <h1 className="board-title">🎯 Trivial</h1>
 
-      <div className="turn-indicator">
-        <b>Turno del Jugador {currentPlayer}</b>
-        {showFinalChallenge && atCenter[currentPlayer] && (
-          <span className="final-phase-indicator">🏆 Fase Final</span>
-        )}
+        <div className="turn-indicator">
+          <b>Turno del Jugador {currentPlayer}</b>
+          {showFinalChallenge && atCenter[currentPlayer] && (
+            <span className="final-phase-indicator">🏆 Fase Final</span>
+          )}
+        </div>
       </div>
-
       <div className="board-game">
         <div className="board-center">
           <div className="board-center-icon">🏆</div>
@@ -286,15 +321,18 @@ function Board({ selectedTheme }) {
           </div>
         )}
 
+        {/* MODAL CENTRADO EN BOARD-GAME - Se ve título y turno */}
         {showQuestion && (
-          <QuestionModal
-            visible={true}
-            onClose={() => setShowQuestion(false)}
-            category={questionCategory}
-            selectedTheme={selectedTheme}
-            onAnswer={handleAnswered}
-            isCheeseCell={isCheeseCell}
-          />
+          <div className="question-modal-overlay">
+            <QuestionModal
+              visible={true}
+              onClose={() => setShowQuestion(false)}
+              category={questionCategory}
+              selectedTheme={selectedTheme}
+              onAnswer={handleAnswered}
+              isCheeseCell={isCheeseCell}
+            />
+          </div>
         )}
       </div>
 

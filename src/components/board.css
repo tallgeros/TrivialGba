@@ -7,12 +7,21 @@
   justify-content: center;
 }
 
+.header {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 3rem;
+  animation: fadeInDown 0.8s ease-out;
+  flex-direction: row;
+}
+
 .board-title {
   color: #fff;
 }
 
 .turn-indicator {
-  margin-bottom: 16px;
   background: #223;
   color: #0fd;
   padding: 8px;
@@ -29,7 +38,7 @@
 }
 
 .board-game {
-  position: relative;
+  position: relative; /* IMPORTANTE: Para que el modal absoluto se posicione aquí */
   width: var(--board-size);
   height: var(--board-size);
   background: #2a2a4e;
@@ -110,16 +119,34 @@
   transform: none;
 }
 
+/* MODAL CENTRADO EN BOARD-GAME - Se ve título y turno arriba */
+.question-modal-overlay {
+  position: absolute; /* CAMBIO: De fixed a absolute para centrarse en board-game */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 24px;
+  /* Permitir scroll interno */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 @keyframes popIn {
-  0% { 
-    opacity: 0; 
+  0% {
+    opacity: 0;
     transform: translate(-50%, -50%) scale(0.3);
   }
-  70% { 
+  70% {
     transform: translate(-50%, -50%) scale(1.08);
   }
-  100% { 
-    opacity: 1; 
+  100% {
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 }
@@ -128,9 +155,10 @@
 /*   Estilos SOLO MÓVIL  */
 /* ===================== */
 @media (max-width: 600px) {
+  /* Board responsive */
   .board-game {
     width: 90vw;   /* más ancho */
-    height: 120vw;  /* un poco menos alto */
+    height: 150vw; /* un poco menos alto */
   }
 
   .board-center {
@@ -144,5 +172,36 @@
     width: 8vw;
     height: 8vw;
   }
-}
 
+  /* Fix para scroll bloqueado después del modal */
+  .board-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .board-game {
+    margin-bottom: 10px; /* Espacio extra abajo */
+  }
+  
+  /* Cuando no hay modal, asegurar scroll */
+  body:not(.modal-open) {
+    overflow-y: auto !important;
+    position: relative !important;
+  }
+
+  /* Modal en móvil - AJUSTADO para board-game centrado */
+  .question-modal-overlay {
+    /* Mantener posición absolute pero ajustar para móvil */
+    top: 5% !important;
+    left: 5% !important;
+    right: 5% !important;
+    bottom: 5% !important;
+    padding: 0 !important;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: block !important;
+    /* CLAVE: Permitir scroll en móvil */
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}

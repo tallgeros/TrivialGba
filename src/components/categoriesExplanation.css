@@ -421,6 +421,7 @@
 @media (max-width: 768px) {
   .categories-container {
     padding: 1rem;
+    height: auto;
   }
 
   .header {

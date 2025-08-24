@@ -13,7 +13,7 @@ export function CategoryStatus({ categories, playerCategories }) {
         width: 400,
       }}
     >
-      <b>Quesitos Ganados:</b>{" "}
+      <b className="categoryTitle">Quesitos Ganados:</b>{" "}
       {[1, 2].map((p) => (
         <div
           key={p}

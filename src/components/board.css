@@ -155,33 +155,36 @@
 /*   Estilos MÓVIL      */
 /* ===================== */
 @media (max-width: 600px) {
-  /* Board responsivo - se adapta al viewport disponible */
+  /* Board responsivo - ocupa más ancho y muestra bordes completos */
   .board-game {
-    /* Calculamos el tamaño basado en el viewport disponible con límites sensatos */
-    width: clamp(320px, min(90vw, 85vh), 450px);
-    /* Formato ovalado en móvil: altura 1.3x el ancho */
-    height: calc(clamp(320px, min(90vw, 85vh), 450px) * 1.3);
+    /* Box-sizing para incluir border dentro del width */
+    box-sizing: border-box;
     
-    /* Ajustamos el radio proporcionalmente */
+    /* Más ancho disponible y límites ajustados */
+    width: clamp(340px, 95vw, 500px);
+    /* Formato ovalado menos alargado: altura 1.25x el ancho */
+    height: calc(clamp(340px, 95vw, 500px) * 1.25);
+    
+    /* Radio proporcional */
     border-radius: clamp(16px, 4vw, 24px);
   }
   
   /* Centro proporcional al nuevo tamaño del board */
   .board-center {
     /* Centro = 20% del ancho del board */
-    width: calc(clamp(320px, min(90vw, 85vh), 450px) * 0.2);
-    height: calc(clamp(320px, min(90vw, 85vh), 450px) * 0.2);
+    width: calc(clamp(340px, 95vw, 500px) * 0.2);
+    height: calc(clamp(340px, 95vw, 500px) * 0.2);
     
     /* Centrado dinámico */
-    left: calc((clamp(320px, min(90vw, 85vh), 450px) - clamp(320px, min(90vw, 85vh), 450px) * 0.2) / 2);
-    top: calc((calc(clamp(320px, min(90vw, 85vh), 450px) * 1.3) - clamp(320px, min(90vw, 85vh), 450px) * 0.2) / 2);
+    left: calc((clamp(340px, 95vw, 500px) - clamp(340px, 95vw, 500px) * 0.2) / 2);
+    top: calc((calc(clamp(340px, 95vw, 500px) * 1.25) - clamp(340px, 95vw, 500px) * 0.2) / 2);
   }
   
   /* Celdas proporcionales */
   .board-cell {
     /* Celdas = 9% del ancho del board */
-    width: calc(clamp(320px, min(90vw, 85vh), 450px) * 0.09);
-    height: calc(clamp(320px, min(90vw, 85vh), 450px) * 0.09);
+    width: calc(clamp(340px, 95vw, 500px) * 0.09);
+    height: calc(clamp(340px, 95vw, 500px) * 0.09);
   }
   
   /* Ajustamos tipografías para móvil */
@@ -207,11 +210,12 @@
     font-size: 18px;
   }
   
-  /* Fix para scroll bloqueado después del modal */
+  /* Contenedor con margen mínimo para mostrar bordes */
   .board-container {
     min-height: 100vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 0 8px; /* Espacio mínimo para bordes laterales */
   }
 }
 

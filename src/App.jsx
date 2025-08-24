@@ -42,7 +42,7 @@ function App() {
       
       case 'game':
         return (
-          <div style={{background:'#0f0f23', minHeight:'100vh', padding:'28px'}}>
+          <div style={{background:'#0f0f23', minHeight:'100vh', padding:'8px', height: '100%'}}>
             <Board 
               selectedTheme={selectedTheme}
               onBackToCategories={handleBackToCategories}

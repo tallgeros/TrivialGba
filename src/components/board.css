@@ -8,13 +8,7 @@
 }
 
 .header {
-  display: flex;
-  justify-content: space-evenly;
-  width: 50%;
-  max-width: 1200px;
-  margin-bottom: 2rem;
-  animation: fadeInDown 0.8s ease-out;
-  flex-direction: row;
+margin-bottom: 1rem;
 }
 
 .board-title {
@@ -156,11 +150,12 @@
 /* ===================== */
 @media (max-width: 600px) {
   .board-game {
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     width: 100%;              /* 👈 ocupa todo el ancho disponible */
-    aspect-ratio: 1 / 1.3;    /* mantiene proporción ovalada */
-    max-height: 90vh;         /* no se pasa del alto de pantalla */
+    aspect-ratio: 1 / 1;    /* mantiene proporción ovalada */
+    max-height: auto;         /* no se pasa del alto de pantalla */
     margin: 0 auto;
+    padding:  0 0 100px 0 ;
     border-radius: clamp(16px, 4vw, 24px);
   }
 
@@ -179,36 +174,17 @@
   }
 
   .board-container {
-    min-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    min-height: unset;
+    /* overflow-y: auto; */
+    /* -webkit-overflow-scrolling: touch; */
     padding: 0;  /* 👈 quitamos padding lateral para que no corte casillas */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    /* align-items: flex-start; */
   }
 }
 
 
 
 
-/* Para móviles muy pequeños */
-@media (max-width: 360px) {
-  .board-game {
-    width: clamp(280px, 92vw, 320px);
-    height: calc(clamp(280px, 92vw, 320px) * 1.3);
-  }
-  
-  .board-center {
-    width: calc(clamp(280px, 92vw, 320px) * 0.18);
-    height: calc(clamp(280px, 92vw, 320px) * 0.18);
-    left: calc((clamp(280px, 92vw, 320px) - clamp(280px, 92vw, 320px) * 0.18) / 2);
-    top: calc((calc(clamp(280px, 92vw, 320px) * 1.3) - clamp(280px, 92vw, 320px) * 0.18) / 2);
-  }
-  
-  .board-cell {
-    width: calc(clamp(280px, 92vw, 320px) * 0.085);
-    height: calc(clamp(280px, 92vw, 320px) * 0.085);
-  }
-}
 

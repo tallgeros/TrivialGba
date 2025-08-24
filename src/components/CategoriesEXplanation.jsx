@@ -89,7 +89,7 @@ const CategoriesExplanation = ({ selectedTheme, onStartGame, onBackToThemes }) =
 
   return (
     <div className="categories-container">
-      <div className="header">
+      <div className="header-categorias">
         <button className="back-button" onClick={onBackToThemes}>
           ← Cambiar Tema
         </button>

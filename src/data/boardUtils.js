@@ -16,7 +16,7 @@ export function getCellPosition(index, boardCells) {
   let centerX, centerY, x, y;
   if (isMobile) {
     // Ajustes para tablero ovalado móvil vertical (más estrecho y alto)
-const boardWidth = window.innerWidth * 0.90;  // un poco más ancho
+const boardWidth = window.innerWidth * 0.95;  // un poco más ancho
 const boardHeight = window.innerWidth * 1.20; // un poco menos alto
 
 

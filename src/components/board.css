@@ -155,65 +155,38 @@
 /*   Estilos MÓVIL      */
 /* ===================== */
 @media (max-width: 600px) {
-  /* Board responsivo - más ancho, altura proporcional */
   .board-game {
     box-sizing: border-box;
-    width: clamp(340px, 95vw, 500px);
-    aspect-ratio: 1 / 1.3; /* 👈 mantiene la proporción sin forzar height */
+    width: 95vw;
+    aspect-ratio: 1 / 1.3;
+    max-height: 90vh; /* 👈 no supera la pantalla */
+    margin: 0 auto;
     border-radius: clamp(16px, 4vw, 24px);
-    margin: 0 auto; /* centra horizontal */
   }
-  
-  /* Centro proporcional al nuevo tamaño del board */
+
   .board-center {
     width: 20%;
     height: 20%;
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%); /* 👈 centrado dinámico */
+    transform: translate(-50%, -50%);
   }
-  
-  /* Celdas proporcionales */
+
   .board-cell {
     width: 9%;
     height: 9%;
   }
-  
-  /* Ajustamos tipografías para móvil */
-  .board-center-icon {
-    font-size: clamp(24px, 6vw, 32px);
-  }
-  
-  .board-center-text {
-    font-size: clamp(10px, 3vw, 13px);
-  }
-  
-  /* Header más compacto en móvil */
-  .header {
-    width: 95%;
-    margin-bottom: 1rem;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  /* Botones de dado más pequeños en móvil */
-  .dice-button {
-    padding: 12px 24px;
-    font-size: 18px;
-  }
-  
-  /* Contenedor con margen mínimo para mostrar bordes */
+
   .board-container {
     min-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     padding: 0 8px;
     display: flex;
-    justify-content: center; /* centra horizontal */
-    align-items: center;     /* centra vertical */
+    justify-content: center;
+    align-items: center;
   }
 }
+
 
 
 /* Para móviles muy pequeños */

@@ -202,13 +202,13 @@
 }
 
 /* ===================== */
-/*   ESTILOS MÓVIL      */
+/*   ESTILOS MÓVIL      */ 
 /* ===================== */
 @media (max-width: 600px) {
   .question-modal-overlay {
-    padding: 10px;
-    align-items: flex-start;
-    padding-top: 20px;
+    /* padding: 10px; */
+    align-items: center;
+    padding-top: 10px;
   }
 
   .question-modal-container {

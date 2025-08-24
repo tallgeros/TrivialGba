@@ -10,9 +10,9 @@
 .header {
   display: flex;
   justify-content: space-evenly;
-  width: 100%;
+  width: 50%;
   max-width: 1200px;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   animation: fadeInDown 0.8s ease-out;
   flex-direction: row;
 }
@@ -38,13 +38,13 @@
 }
 
 .board-game {
-  position: relative; /* IMPORTANTE: Para que el modal absoluto se posicione aquí */
+  position: relative; 
   width: var(--board-size);
   height: var(--board-size);
   background: #2a2a4e;
   border-radius: 24px;
   border: 3px solid #00d4ff;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
 
 .board-center {
@@ -158,7 +158,7 @@
   /* Board responsive */
   .board-game {
     width: 90vw;   /* más ancho */
-    height: 150vw; /* un poco menos alto */
+    height: 120vw; /* un poco menos alto */
   }
 
   .board-center {
@@ -179,29 +179,15 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
+}
+  /* .board-game {
+    margin-bottom: 10px; /* Espacio extra abajo 
+  } */
   
-  .board-game {
-    margin-bottom: 10px; /* Espacio extra abajo */
-  }
-  
-  /* Cuando no hay modal, asegurar scroll */
+  /* Cuando no hay modal, asegurar scroll
   body:not(.modal-open) {
     overflow-y: auto !important;
     position: relative !important;
-  }
+  } */
 
-  /* Modal en móvil - AJUSTADO para board-game centrado */
-  .question-modal-overlay {
-    /* Mantener posición absolute pero ajustar para móvil */
-    top: 5% !important;
-    left: 5% !important;
-    right: 5% !important;
-    bottom: 5% !important;
-    padding: 0 !important;
-    background-color: rgba(0, 0, 0, 0.95);
-    display: block !important;
-    /* CLAVE: Permitir scroll en móvil */
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-}
+

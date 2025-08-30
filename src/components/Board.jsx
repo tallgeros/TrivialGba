@@ -34,6 +34,7 @@ function Board({ selectedTheme }) {
   const [centerQuestions, setCenterQuestions] = useState({ 1: [], 2: [] });
   const [centerCategoryQueue, setCenterCategoryQueue] = useState([]);
   const [showFinalChallenge, setShowFinalChallenge] = useState(false);
+  const [currentCenterQuestionIndex, setCurrentCenterQuestionIndex] = useState(0);
 
   // Ajustar variables CSS dinámicamente según tamaño (desktop vs móvil)
   useEffect(() => {
@@ -110,9 +111,19 @@ function Board({ selectedTheme }) {
   function checkCell(position) {
     const cell = boardCells[position];
     const category = cell.category;
+    
+    // Si está en el centro pero no tiene todos los quesitos
+    if (cell.type === "center" && playerCategories[currentPlayer].length < NUM_CATEGORIES) {
+      window.alert(
+        `¡Necesitas un quesito de cada categoría antes de disputar la final! Te faltan ${NUM_CATEGORIES - playerCategories[currentPlayer].length} quesitos.`
+      );
+      nextTurn();
+      return;
+    }
+    
     setQuestionCategory(category);
     setIsCheeseCell(cell.type === "cheese");
-    setShowQuestion(true); // Ahora se dispara 1 segundo después
+    setShowQuestion(true);
   }
 
   // ===================== RESPUESTA PREGUNTA NORMAL ===================
@@ -124,40 +135,35 @@ function Board({ selectedTheme }) {
       return;
     }
 
-    const pos = playerPositions[currentPlayer];
-    if (
-      boardCells[pos].type === "center" &&
-      playerCategories[currentPlayer].length < NUM_CATEGORIES
-    ) {
-      window.alert(
-        "¡Necesitas todos los quesitos antes de disputar la final en el centro!"
-      );
-      nextTurn();
-      return;
-    }
-
     if (isCorrect) {
       if (isCheese) {
         setPlayerCategories((prev) => {
           const already = prev[currentPlayer].includes(questionCategory);
-          if (already) return prev;
+          if (already) {
+            // Ya tiene quesito de esta categoría, no hacer nada especial
+            return prev;
+          }
+          // Agregar nuevo quesito
+          const newCategories = [...prev[currentPlayer], questionCategory];
+          
+          // Verificar si ya tiene todos los quesitos
+          setTimeout(() => {
+            if (newCategories.length === NUM_CATEGORIES) {
+              window.alert(
+                "¡Has conseguido un quesito de cada categoría! Ahora puedes ir al centro y disputar la final."
+              );
+            }
+          }, 100);
+          
           return {
             ...prev,
-            [currentPlayer]: [...prev[currentPlayer], questionCategory],
+            [currentPlayer]: newCategories,
           };
         });
       }
-      setTimeout(() => {
-        if (
-          playerCategories[currentPlayer].length + (isCheese ? 1 : 0) ===
-          NUM_CATEGORIES
-        ) {
-          window.alert(
-            "¡Has conseguido todos los quesitos! Ahora solo puedes entrar en el centro y disputar la final."
-          );
-        }
-      }, 100);
+      // Si acierta, continúa jugando (no pasa el turno)
     } else {
+      // Si falla, pasa el turno
       nextTurn();
     }
   }
@@ -212,47 +218,61 @@ function Board({ selectedTheme }) {
     step();
   }
 
-  // =========== RONDA FINAL (CENTRO, 6 preguntas aleatorias) ============
+  // =========== RONDA FINAL (CENTRO, una pregunta de cada categoría) ============
   function iniciarRondaCentro() {
+    // Crear orden aleatorio de las categorías para la ronda final
     const catOrder = shuffle(Object.keys(categories));
     setCenterCategoryQueue(catOrder);
     setCenterQuestions((prev) => ({ ...prev, [currentPlayer]: [] }));
     setAtCenter((prev) => ({ ...prev, [currentPlayer]: true }));
     setShowFinalChallenge(true);
+    setCurrentCenterQuestionIndex(0);
     setShowQuestion(true);
     setQuestionCategory(catOrder[0]);
     setIsCheeseCell(false);
   }
 
   function handleCenterAnswer(isCorrect) {
+    // Guardar la respuesta
     setCenterQuestions((prev) => {
-      const playerList = [...(prev[currentPlayer] || []), isCorrect];
-      const idx = playerList.length;
-      if (idx < centerCategoryQueue.length) {
-        setTimeout(() => {
-          setShowQuestion(true);
-          setQuestionCategory(centerCategoryQueue[idx]);
-          setIsCheeseCell(false);
-        }, 650);
-      } else {
-        setShowFinalChallenge(false);
-        const aciertos = playerList.filter(Boolean).length;
-        if (aciertos >= 5) {
-          setTimeout(() => {
-            alert(
-              `¡Jugador ${currentPlayer} ha acertado ${aciertos}/6 y GANA la partida!`
-            );
-          }, 400);
-        } else {
-          setTimeout(() => {
-            alert("No has conseguido 5 aciertos... ¡Turno para el adversario!");
-            setAtCenter((p) => ({ ...p, [currentPlayer]: false }));
-            nextTurn();
-          }, 400);
-        }
-      }
-      return { ...prev, [currentPlayer]: playerList };
+      const newQuestions = [...(prev[currentPlayer] || []), isCorrect];
+      return { ...prev, [currentPlayer]: newQuestions };
     });
+
+    const nextIndex = currentCenterQuestionIndex + 1;
+    
+    if (nextIndex < centerCategoryQueue.length) {
+      // Hay más preguntas, continuar
+      setCurrentCenterQuestionIndex(nextIndex);
+      setTimeout(() => {
+        setShowQuestion(true);
+        setQuestionCategory(centerCategoryQueue[nextIndex]);
+        setIsCheeseCell(false);
+      }, 650);
+    } else {
+      // Se acabaron las preguntas, evaluar resultado
+      setShowFinalChallenge(false);
+      
+      // Contar aciertos (incluyendo la respuesta actual)
+      const allAnswers = [...(centerQuestions[currentPlayer] || []), isCorrect];
+      const aciertos = allAnswers.filter(Boolean).length;
+      
+      if (aciertos >= 4) {
+        setTimeout(() => {
+          alert(
+            `¡Jugador ${currentPlayer} ha acertado ${aciertos}/${NUM_CATEGORIES} preguntas y GANA la partida! 🎉`
+          );
+        }, 400);
+      } else {
+        setTimeout(() => {
+          alert(
+            `Jugador ${currentPlayer} acertó ${aciertos}/${NUM_CATEGORIES} preguntas. Necesitas al menos 4 aciertos. ¡Te quedas en el centro para el próximo turno!`
+          );
+          // El jugador se queda en el centro, solo cambia el turno
+          nextTurn();
+        }, 400);
+      }
+    }
   }
 
   function shuffle(arr) {
@@ -275,7 +295,14 @@ function Board({ selectedTheme }) {
         <div className="turn-indicator">
           <b>Turno del Jugador {currentPlayer}</b>
           {showFinalChallenge && atCenter[currentPlayer] && (
-            <span className="final-phase-indicator">🏆 Fase Final</span>
+            <span className="final-phase-indicator">
+              🏆 Fase Final ({currentCenterQuestionIndex + 1}/{NUM_CATEGORIES})
+            </span>
+          )}
+          {atCenter[currentPlayer] && !showFinalChallenge && (
+            <span className="center-waiting-indicator">
+              🎯 En el centro - Esperando turno
+            </span>
           )}
         </div>
       </div>
@@ -293,8 +320,8 @@ function Board({ selectedTheme }) {
             position={getCellPosition(i, boardCells)}
             category={categories[cell.category]}
             isCheese={cell.type === "cheese"}
-            isPassed={passedCells.includes(i)}      // Zoom por donde pasa
-            isCurrent={playerPositions[currentPlayer] === i} // Zoom casilla actual
+            isPassed={passedCells.includes(i)}
+            isCurrent={playerPositions[currentPlayer] === i}
           />
         ))}
 
@@ -321,7 +348,6 @@ function Board({ selectedTheme }) {
           </div>
         )}
 
-        {/* MODAL CENTRADO EN BOARD-GAME - Se ve título y turno */}
         {showQuestion && (
           <div className="question-modal-overlay">
             <QuestionModal
